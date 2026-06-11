@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Battle Lab 1914 · Etapa 18 UX Simple</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-mode="basic">
+  <main class="app">
+    <header class="top">
+      <div>
+        <p class="eyebrow">Supremacy 1914 · Battle Lab 1914</p>
+        <h1>Calculadora de batalla</h1>
+        <p class="sub">Modo simple primero. Lo avanzado queda oculto hasta que lo necesites.</p>
+      </div>
+      <div class="version">Etapa 18 · UX Simple</div>
+    </header>
+
+    <section class="mode-panel">
+      <button class="mode active" data-mode="basic" type="button">1 · Básico</button>
+      <button class="mode" data-mode="tactical" type="button">2 · Táctico</button>
+      <button class="mode" data-mode="advanced" type="button">3 · Avanzado</button>
+    </section>
+
+    <section class="quick-actions">
+      <button class="primary" type="button" data-action="simulate">Simular batalla</button>
+
+      <label class="field small">
+        <span>Rondas</span>
+        <input id="maxRounds" type="number" min="0.25" step="0.25" value="25">
+      </label>
+
+      <label class="switch">
+        <input id="simulateVariance" type="checkbox">
+        <span>Varianza</span>
+      </label>
+
+      <label class="field small advanced-only">
+        <span>Simulaciones</span>
+        <input id="simulationRuns" type="number" min="1" max="1000" step="1" value="100">
+      </label>
+
+      <button class="ghost" type="button" data-action="reset">Reset</button>
+      <button class="ghost advanced-only" type="button" data-action="export">Exportar resultado</button>
+      <button class="ghost" type="button" data-action="help">Ayuda rápida</button>
+    </section>
+
+    <section id="summaryResult" class="result-hero">
+      <div>
+        <p class="eyebrow">Resultado principal</p>
+        <h2>Configura Army A y Army B, luego pulsa Simular</h2>
+        <p>La respuesta principal aparecerá aquí en lenguaje claro. El detalle técnico queda abajo.</p>
+      </div>
+    </section>
+
+    <section class="armies">
+      <article class="army army-a">
+        <div class="army-head">
+          <div>
+            <p>Army A</p>
+            <h2>Tu ejército</h2>
+          </div>
+          <span class="badge">Atacante</span>
+        </div>
+
+        <div class="unit-list" id="unitsA"></div>
+        <button class="add" type="button" data-action="add-unit" data-army="A">+ Agregar unidad</button>
+
+        <details class="tactical-only">
+          <summary>Opciones tácticas</summary>
+          <div class="grid">
+            <label class="field"><span>Posición</span><input id="posA" type="number" step="1" value="0"></label>
+            <label class="field"><span>Terreno</span><select id="terrainA"><option value="land">Tierra</option><option value="sea">Mar / transporte</option><option value="debark">Desembarco</option><option value="air">Aire</option><option value="patrol">Patrulla</option></select></label>
+            <label class="field"><span>Tipo objetivo</span><select id="targetClassA"><option value="auto">Auto</option><option value="normal">Normal</option><option value="air">Aire</option><option value="naval">Naval</option><option value="building">Edificio</option></select></label>
+            <label class="field"><span>Objetivo</span><select id="targetA"><option value="B1">Army B</option><option value="Defend">Defend</option></select></label>
+          </div>
+        </details>
+
+        <details class="advanced-only">
+          <summary>Fortaleza y héroe</summary>
+          <div class="grid">
+            <label class="field"><span>Fortaleza</span><select id="fortA"><option value="none">Sin fortaleza</option><option value="1">Nivel I</option><option value="2">Nivel II</option><option value="3">Nivel III</option><option value="4">Nivel IV</option><option value="5">Nivel V</option></select></label>
+            <label class="field"><span>HP fortaleza</span><input id="fortHpA" type="number" min="0" max="50" step="0.1" value="0"></label>
+            <label class="field"><span>Héroe</span><select id="heroA"></select></label>
+            <label class="field"><span>Afecta</span><select id="heroAffectsA"></select></label>
+            <label class="field"><span>Ataque %</span><input id="heroAttackA" type="number" step="1" value="0"></label>
+            <label class="field"><span>Defensa %</span><input id="heroDefenseA" type="number" step="1" value="0"></label>
+            <label class="field"><span>HP %</span><input id="heroHpA" type="number" step="1" value="0"></label>
+          </div>
+        </details>
+      </article>
+
+      <article class="army army-b">
+        <div class="army-head">
+          <div>
+            <p>Army B</p>
+            <h2>Enemigo</h2>
+          </div>
+          <span class="badge red">Defensor</span>
+        </div>
+
+        <div class="unit-list" id="unitsB"></div>
+        <button class="add" type="button" data-action="add-unit" data-army="B">+ Agregar unidad</button>
+
+        <details class="tactical-only">
+          <summary>Opciones tácticas</summary>
+          <div class="grid">
+            <label class="field"><span>Posición</span><input id="posB" type="number" step="1" value="0"></label>
+            <label class="field"><span>Terreno</span><select id="terrainB"><option value="land">Tierra</option><option value="sea">Mar / transporte</option><option value="debark">Desembarco</option><option value="air">Aire</option><option value="patrol">Patrulla</option></select></label>
+            <label class="field"><span>Tipo objetivo</span><select id="targetClassB"><option value="auto">Auto</option><option value="normal">Normal</option><option value="air">Aire</option><option value="naval">Naval</option><option value="building">Edificio</option></select></label>
+            <label class="field"><span>Objetivo</span><select id="targetB"><option value="Defend">Defend</option><option value="A1">Army A</option></select></label>
+          </div>
+        </details>
+
+        <details class="advanced-only">
+          <summary>Fortaleza y héroe</summary>
+          <div class="grid">
+            <label class="field"><span>Fortaleza</span><select id="fortB"><option value="none">Sin fortaleza</option><option value="1">Nivel I</option><option value="2">Nivel II</option><option value="3">Nivel III</option><option value="4">Nivel IV</option><option value="5">Nivel V</option></select></label>
+            <label class="field"><span>HP fortaleza</span><input id="fortHpB" type="number" min="0" max="50" step="0.1" value="0"></label>
+            <label class="field"><span>Héroe</span><select id="heroB"></select></label>
+            <label class="field"><span>Afecta</span><select id="heroAffectsB"></select></label>
+            <label class="field"><span>Ataque %</span><input id="heroAttackB" type="number" step="1" value="0"></label>
+            <label class="field"><span>Defensa %</span><input id="heroDefenseB" type="number" step="1" value="0"></label>
+            <label class="field"><span>HP %</span><input id="heroHpB" type="number" step="1" value="0"></label>
+          </div>
+        </details>
+      </article>
+    </section>
+
+    <section class="details-area">
+      <details open>
+        <summary>Resumen táctico</summary>
+        <div id="simpleReport" class="simple-report">Todavía no hay simulación.</div>
+      </details>
+
+      <details>
+        <summary>Detalle técnico</summary>
+        <div id="technicalReport" class="technical-report">Las tablas técnicas aparecerán después de simular.</div>
+      </details>
+
+      <details>
+        <summary>Escenarios rápidos</summary>
+        <div class="scenario-grid">
+          <button type="button" data-scenario="desembarco">Desembarco urgente</button>
+          <button type="button" data-scenario="fortaleza">Bombardeo a fortaleza</button>
+          <button type="button" data-scenario="aereo">Ataque aéreo</button>
+          <button type="button" data-scenario="georg">Georg + artillería</button>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <template id="unitRowTemplate">
+    <div class="unit-row">
+      <select class="unit-type"></select>
+      <input class="unit-count" type="number" min="0" value="1">
+      <input class="unit-hp" type="text" value="100%">
+      <button type="button" class="delete" data-action="delete-unit">×</button>
+    </div>
+  </template>
+
+  <script src="units.js"></script>
+  <script src="battleEngine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
