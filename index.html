@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Battle Lab 1914 · Etapa 17 Beta</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="background-grid"></div>
+
+  <main class="app-shell">
+    <header class="hero-panel">
+      <div>
+        <p class="eyebrow">Supremacy 1914 · simulador táctico</p>
+        <h1>Battle Lab 1914</h1>
+        <p class="subtitle">
+          Etapa 17 Beta: pulido final, ayuda interna, reset limpio, exportación HTML y versión lista para compartir.
+        </p>
+      </div>
+
+      <div class="status-card">
+        <span class="status-dot"></span>
+        <div>
+          <strong>Etapa 17 Beta</strong>
+          <small>Pulido final</small>
+        </div>
+      </div>
+    </header>
+
+    <section class="command-bar">
+      <button class="primary-action" type="button" data-action="start-battle">Simular batalla</button>
+
+      <label class="field compact">
+        <span>Rondas máx.</span>
+        <input id="maxRounds" type="number" min="0" step="0.25" value="1" />
+      </label>
+
+      <label class="toggle">
+        <input id="updateCounts" type="checkbox" />
+        <span>Actualizar tropas</span>
+      </label>
+
+      <label class="toggle">
+        <input id="simulateVariance" type="checkbox" />
+        <span>Varianza simple</span>
+      </label>
+
+      <label class="field compact">
+        <span>Simulaciones</span>
+        <input id="simulationRuns" type="number" min="1" max="1000" step="1" value="100" />
+      </label>
+
+      <button class="ghost-action" type="button" data-action="reset-demo">Reiniciar demo</button>
+
+      <label class="field scenario-name-field">
+        <span>Nombre escenario</span>
+        <input id="scenarioName" type="text" value="Mi batalla" />
+      </label>
+
+      <label class="field scenario-select-field">
+        <span>Escenario rápido</span>
+        <select id="quickScenario"></select>
+      </label>
+
+      <button class="ghost-action" type="button" data-action="load-quick-scenario">Cargar rápido</button>
+      <button class="ghost-action" type="button" data-action="save-scenario">Guardar</button>
+      <button class="ghost-action" type="button" data-action="load-scenario">Cargar</button>
+      <button class="ghost-action" type="button" data-action="export-scenario">Exportar JSON</button>
+      <button class="ghost-action" type="button" data-action="import-scenario">Importar JSON</button>
+      <button class="ghost-action" type="button" data-action="toggle-compact">Modo compacto</button>
+      <button class="ghost-action" type="button" data-action="export-result">Exportar resultado</button>
+      <button class="ghost-action" type="button" data-action="clear-result">Limpiar reporte</button>
+      <button class="ghost-action" type="button" data-action="export-html-report">Exportar HTML</button>
+      <button class="ghost-action" type="button" data-action="show-help">Ayuda</button>
+      <button class="ghost-action danger-lite" type="button" data-action="reset-clean">Reset limpio</button>
+    </section>
+
+    <section class="view-tabs" aria-label="Vistas">
+      <button class="tab-button active" type="button" data-tab="battlefield">Campo de batalla</button>
+      <button class="tab-button" type="button" data-tab="results">Resultados</button>
+      <button class="tab-button" type="button" data-tab="codex">Codex</button>
+    </section>
+
+    <section class="battlefield" data-panel="battlefield">
+      <article class="army-card army-a" id="armyA" data-army="A">
+        <div class="army-title">
+          <div>
+            <p>Ejército A</p>
+            <h2>Fuerza atacante</h2>
+          </div>
+          <button type="button" data-action="add-stack" data-army="A">+ stack</button>
+        </div>
+        <div class="stacks-list" id="stacksA"></div>
+      </article>
+
+      <div class="versus-panel">
+        <span>VS</span>
+        <small>Etapa 17</small>
+      </div>
+
+      <article class="army-card army-b" id="armyB" data-army="B">
+        <div class="army-title">
+          <div>
+            <p>Ejército B</p>
+            <h2>Fuerza defensora</h2>
+          </div>
+          <button type="button" data-action="add-stack" data-army="B">+ stack</button>
+        </div>
+        <div class="stacks-list" id="stacksB"></div>
+      </article>
+    </section>
+
+    <section class="intel-grid" data-panel="results">
+      <article class="intel-card results-card" id="results">
+        <h2>Resultado</h2>
+        <p>
+          Etapa 17 lista. Se agregó ayuda interna, reset limpio total, exportación HTML del reporte y mejoras de presentación.
+        </p>
+      </article>
+
+      <article class="intel-card">
+        <h2>Base cargada</h2>
+        <div class="data-pills" id="dataStatus"></div>
+        <p class="small-note">
+          Versión beta: preparada para revisar, compartir y seguir puliendo cálculos finos.
+        </p>
+      </article>
+    </section>
+
+    <section class="codex-panel" data-panel="codex">
+      <div class="codex-heading">
+        <div>
+          <p class="eyebrow">Codex</p>
+          <h2>Unidades cargadas</h2>
+        </div>
+        <small>HP · daño por tipo · rango</small>
+      </div>
+      <div class="unit-codex" id="unitCodex"></div>
+    </section>
+  </main>
+
+  <template id="stackTemplate">
+    <div class="stack-card">
+      <div class="stack-header">
+        <div>
+          <strong class="stack-name"></strong>
+          <small class="stack-summary">Nuevo grupo de combate</small>
+        </div>
+
+        <div class="stack-actions">
+          <select class="target-select"></select>
+          <button type="button" data-action="duplicate-stack">duplicar</button>
+          <button type="button" data-action="delete-stack">eliminar</button>
+        </div>
+      </div>
+
+      <div class="stack-meta">
+        <label class="field">
+          <span>Terreno</span>
+          <select class="terrain-select">
+            <option value="land">Tierra</option>
+            <option value="sea">Mar / transporte</option>
+            <option value="air">Aire</option>
+            <option value="debark">Desembarco</option>
+            <option value="patrol">Patrulla</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Tipo objetivo</span>
+          <select class="target-class-select">
+            <option value="auto">Auto</option>
+            <option value="normal">Normal</option>
+            <option value="air">Aire</option>
+            <option value="naval">Naval</option>
+            <option value="building">Edificio</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Posición</span>
+          <select class="position-select">
+            <option value="0">0 km</option>
+            <option value="1">1 km</option>
+            <option value="2">2 km</option>
+            <option value="3">3 km</option>
+            <option value="5">5 km</option>
+            <option value="10">10 km</option>
+            <option value="25">25 km</option>
+            <option value="40">40 km</option>
+            <option value="50">50 km</option>
+            <option value="75">75 km</option>
+            <option value="150">150 km</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Fortaleza</span>
+          <select class="fort-select">
+            <option value="none">Sin fortaleza</option>
+            <option value="1">Nivel I</option>
+            <option value="2">Nivel II</option>
+            <option value="3">Nivel III</option>
+            <option value="4">Nivel IV</option>
+            <option value="5">Nivel V</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>HP fortaleza</span>
+          <input class="fort-hp" type="number" min="0" max="50" step="0.1" value="0" />
+        </label>
+      </div>
+
+      <div class="fort-readout">
+        <span class="fort-protection">Sin protección</span>
+        <div class="fort-bar"><i></i></div>
+      </div>
+
+
+      <div class="hero-box">
+        <div class="hero-box-title">
+          <strong>Héroe / modificador</strong>
+          <small>editable</small>
+        </div>
+
+        <div class="hero-grid">
+          <label class="field">
+            <span>Héroe</span>
+            <select class="hero-select"></select>
+          </label>
+
+          <label class="field">
+            <span>Nivel</span>
+            <input class="hero-level" type="number" min="0" max="20" step="1" value="0" />
+          </label>
+
+          <label class="field">
+            <span>Afecta</span>
+            <select class="hero-affects">
+              <option value="all">Todos</option>
+              <option value="infantry">Infantería</option>
+              <option value="cavalry">Caballería</option>
+              <option value="armoredCar">Carro blindado</option>
+              <option value="lightTank">Tanque ligero</option>
+              <option value="heavyTank">Tanque pesado</option>
+              <option value="stormtrooper">Tropas de asalto</option>
+              <option value="artillery">Artillería</option>
+              <option value="railgun">Cañón ferroviario</option>
+              <option value="balloon">Globo</option>
+              <option value="fighter">Caza</option>
+              <option value="bomber">Bombardero</option>
+              <option value="airship">Dirigible</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Ataque %</span>
+            <input class="hero-attack" type="number" step="1" value="0" />
+          </label>
+
+          <label class="field">
+            <span>Defensa %</span>
+            <input class="hero-defense" type="number" step="1" value="0" />
+          </label>
+
+          <label class="field">
+            <span>HP %</span>
+            <input class="hero-hp" type="number" step="1" value="0" />
+          </label>
+
+          <label class="field">
+            <span>Duración</span>
+            <input class="hero-duration" type="number" min="0" step="0.25" value="0" />
+          </label>
+        </div>
+      </div>
+
+      <div class="unit-table">
+        <div class="unit-table-head">
+          <span>Unidad</span>
+          <span>Cantidad</span>
+          <span>HP</span>
+          <span>Ficha rápida</span>
+          <span></span>
+        </div>
+
+        <div class="unit-list"></div>
+      </div>
+
+      <div class="stack-footer">
+        <button type="button" data-action="add-unit">+ unidad</button>
+      </div>
+    </div>
+  </template>
+
+  <template id="unitRowTemplate">
+    <div class="unit-row">
+      <select class="unit-type"></select>
+      <input class="unit-count" type="number" min="0" value="1" />
+      <input class="unit-hp" type="text" value="100%" />
+      <div class="mini-stats"></div>
+      <button class="danger-action" type="button" data-action="delete-unit">×</button>
+    </div>
+  </template>
+
+  <script src="units.js"></script>
+  <script src="battleEngine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
