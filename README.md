@@ -1,65 +1,55 @@
-# Battle Lab 1914 - Etapa 18 UX Simple
+# Battle Lab 1914
 
-## Objetivo
+Simulador táctico para **Supremacy 1914**.
 
-Esta etapa reduce la saturación visual.
+## Archivo principal
 
-La calculadora ahora abre en modo simple para que el usuario entienda la herramienta en segundos.
+GitHub Pages debe abrir:
 
-## Tres modos
+`index.html`
 
-### Modo básico
+## Archivos necesarios
 
-- Army A.
-- Army B.
-- Unidad.
-- Cantidad.
-- HP.
-- Simular.
-- Resultado claro.
+- `index.html`
+- `styles.css`
+- `app.js`
+- `units.js`
+- `battleEngine.js`
+- `supabaseClient.js`
+- `.nojekyll`
 
-### Modo táctico
+## Supabase
 
-Agrega:
+La app funciona sin Supabase en modo local/demo.
 
-- posición,
-- terreno,
-- tipo de objetivo,
-- objetivo del stack.
+Para nube real, ejecuta el SQL en:
 
-### Modo avanzado
+`supabase/supabase_schema.sql`
 
-Agrega:
+Luego abre la app, entra en **Iniciar sesión → Configurar Supabase** y pega:
 
-- fortalezas,
-- HP de fortaleza,
-- héroes,
-- bonos,
-- varianza,
-- exportación.
+- Project URL
+- anon public key
 
-## Resultado simplificado
+Nunca uses `service_role key` en el navegador.
 
-El resultado principal ahora aparece arriba, con:
+## Publicación rápida
 
-- ganador estimado,
-- HP restante,
-- alertas claras,
-- resumen táctico.
+Lee:
 
-El detalle técnico queda escondido en una sección desplegable.
+`docs/DEPLOY_GITHUB_PAGES.md`
 
-## Escenarios rápidos
 
-Incluye:
+## Mejora incluida: HP inteligente
 
-- desembarco urgente,
-- bombardeo a fortaleza,
-- ataque aéreo,
-- Georg + artillería.
+Esta versión mejora la entrada de unidades:
 
-## Archivo recomendado
-
-Abre:
-
-`battle_lab_1914_etapa18_ux_simple_todo_en_uno.html`
+- Icono visible de la unidad seleccionada.
+- HP por unidad visible en cada fila.
+- Vida máxima total calculada automáticamente.
+- Campo de HP actual.
+- Campo de porcentaje de vida.
+- Conversión automática HP ↔ porcentaje.
+- Barra visual de vida.
+- Validación en vivo si el HP excede el máximo.
+- Resumen de HP total del stack.

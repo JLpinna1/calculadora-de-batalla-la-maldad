@@ -29,3 +29,1142 @@ details{margin-top:12px;border:1px solid var(--line);border-radius:16px;backgrou
 body[data-mode="basic"] .tactical-only,body[data-mode="basic"] .advanced-only{display:none}body[data-mode="tactical"] .advanced-only{display:none}body[data-mode="advanced"] .advanced-only,body[data-mode="advanced"] .tactical-only{display:block}
 @media(max-width:920px){.top,.armies{grid-template-columns:1fr;display:grid}.version{width:max-content}.report-cards,.scenario-grid{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
 @media(max-width:620px){.unit-row{grid-template-columns:1fr}.delete{width:100%}}
+
+
+/* ===== Etapa 19: Pulido de uso real ===== */
+.start-guide{
+  display:grid;
+  grid-template-columns:1fr auto auto;
+  gap:14px;
+  align-items:center;
+  border:1px solid rgba(215,180,106,.32);
+  border-radius:20px;
+  padding:16px;
+  background:linear-gradient(135deg,rgba(215,180,106,.10),rgba(255,255,255,.035));
+  margin-bottom:14px;
+}
+.start-guide h2{
+  margin:0;
+  font-size:22px;
+}
+.guide-steps{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+}
+.guide-steps div{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:9px 10px;
+  background:rgba(0,0,0,.16);
+  white-space:nowrap;
+}
+.guide-steps b{
+  display:grid;
+  place-items:center;
+  width:26px;
+  height:26px;
+  border-radius:50%;
+  color:#17110a;
+  background:linear-gradient(135deg,#e9c46a,#f4a261);
+}
+.guide-steps span{
+  color:var(--text);
+  font-size:13px;
+  font-weight:800;
+}
+.mode-hint{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:12px 14px;
+  background:rgba(255,255,255,.035);
+  margin-bottom:14px;
+}
+.mode-hint strong{
+  color:var(--gold);
+  white-space:nowrap;
+}
+.mode-hint span{
+  color:var(--muted);
+  line-height:1.35;
+}
+.validation-box{
+  border:1px solid rgba(251,113,133,.5);
+  border-radius:16px;
+  background:rgba(251,113,133,.11);
+  padding:12px 14px;
+  margin-bottom:14px;
+}
+.validation-box strong{
+  display:block;
+  color:#fff;
+  margin-bottom:6px;
+}
+.validation-box ul{
+  margin:0;
+  padding-left:18px;
+  color:var(--text);
+}
+.advice-box{
+  border:1px solid rgba(103,232,249,.35);
+  border-radius:14px;
+  background:rgba(103,232,249,.07);
+  padding:12px;
+  line-height:1.45;
+}
+.advice-box strong{
+  color:var(--gold);
+}
+.result-line{
+  display:grid;
+  gap:6px;
+  margin-top:10px;
+}
+.result-line span{
+  color:var(--muted);
+}
+.copy-note{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:10px;
+}
+.copy-note button{
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:rgba(255,255,255,.06);
+  color:var(--text);
+  padding:9px 12px;
+  cursor:pointer;
+  font-weight:900;
+}
+.help-mini{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+.help-mini div{
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(0,0,0,.14);
+  padding:12px;
+}
+.help-mini b{
+  color:var(--gold);
+  display:block;
+  margin-bottom:6px;
+}
+.help-mini span{
+  color:var(--muted);
+  line-height:1.4;
+}
+@media(max-width:980px){
+  .start-guide{
+    grid-template-columns:1fr;
+  }
+  .guide-steps,.help-mini{
+    grid-template-columns:1fr;
+  }
+  .guide-steps div{
+    white-space:normal;
+  }
+}
+
+
+/* ===== Etapa 20: Pruebas reales y calibración ===== */
+.wide{
+  margin-top:12px;
+}
+textarea{
+  width:100%;
+  min-height:96px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  color:var(--text);
+  background:var(--input);
+  padding:10px;
+  resize:vertical;
+  font:inherit;
+  outline:none;
+}
+.test-panel{
+  display:grid;
+  gap:12px;
+  margin-top:12px;
+}
+.test-intro{
+  display:grid;
+  gap:4px;
+  border:1px solid rgba(215,180,106,.32);
+  border-radius:14px;
+  padding:12px;
+  background:rgba(215,180,106,.07);
+}
+.test-intro strong{
+  color:var(--gold);
+}
+.test-intro span{
+  color:var(--muted);
+  line-height:1.45;
+}
+.test-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.test-actions button{
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:rgba(255,255,255,.06);
+  color:var(--text);
+  padding:9px 12px;
+  cursor:pointer;
+  font-weight:900;
+}
+.test-actions button:last-child{
+  border-color:rgba(251,113,133,.45);
+  background:rgba(251,113,133,.10);
+}
+.test-case-report{
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(0,0,0,.14);
+  padding:12px;
+  overflow-x:auto;
+}
+.case-list{
+  display:grid;
+  gap:10px;
+}
+.case-card{
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(255,255,255,.035);
+  padding:12px;
+}
+.case-card h3{
+  margin:0 0 6px;
+  color:var(--gold);
+}
+.case-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:8px 0;
+}
+.case-pill{
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:6px 9px;
+  font-size:12px;
+  font-weight:900;
+}
+.case-pill.ok{
+  border-color:rgba(74,222,128,.45);
+  color:var(--green);
+}
+.case-pill.bad{
+  border-color:rgba(251,113,133,.45);
+  color:var(--red);
+}
+.case-pill.warn{
+  border-color:rgba(215,180,106,.45);
+  color:var(--gold);
+}
+.calibration-score{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-bottom:12px;
+}
+.score-card{
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(0,0,0,.16);
+  padding:12px;
+}
+.score-card strong{
+  display:block;
+  color:var(--gold);
+  margin-bottom:6px;
+}
+.score-card b{
+  font-size:24px;
+}
+@media(max-width:760px){
+  .calibration-score{
+    grid-template-columns:1fr;
+  }
+}
+
+
+/* ===== Etapa 22: Plataforma local ===== */
+.user-bar{
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  align-items:center;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:14px 16px;
+  background:rgba(255,255,255,.04);
+  margin-bottom:14px;
+}
+.user-bar strong{
+  display:block;
+  color:var(--text);
+  font-size:18px;
+}
+.user-bar span{
+  display:block;
+  color:var(--muted);
+  margin-top:4px;
+}
+.user-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  justify-content:flex-end;
+}
+.danger-lite{
+  border-color:rgba(251,113,133,.45)!important;
+  background:rgba(251,113,133,.10)!important;
+}
+.auth-panel,
+.dashboard-panel{
+  border:1px solid rgba(215,180,106,.35);
+  border-radius:22px;
+  padding:16px;
+  background:linear-gradient(135deg,rgba(215,180,106,.10),rgba(255,255,255,.035));
+  margin-bottom:14px;
+}
+.auth-card{
+  display:grid;
+  gap:14px;
+}
+.auth-head,
+.dash-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:14px;
+}
+.auth-head h2,
+.dash-head h2{
+  margin:0 0 6px;
+}
+.auth-head p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.45;
+}
+.auth-head button,
+.dash-head button{
+  border:1px solid var(--line);
+  border-radius:12px;
+  color:var(--text);
+  background:rgba(0,0,0,.18);
+  width:42px;
+  height:42px;
+  cursor:pointer;
+  font-size:20px;
+}
+.auth-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+.auth-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.auth-actions button,
+.dash-card button{
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:rgba(255,255,255,.06);
+  color:var(--text);
+  padding:10px 12px;
+  cursor:pointer;
+  font-weight:900;
+}
+.auth-actions button:first-child{
+  background:linear-gradient(135deg,#e9c46a,#f4a261);
+  color:#17110a;
+  border:0;
+}
+.dash-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin-bottom:12px;
+}
+.dash-card{
+  display:grid;
+  gap:8px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:rgba(0,0,0,.16);
+  padding:14px;
+}
+.dash-card strong{
+  color:var(--gold);
+}
+.dash-card b{
+  font-size:24px;
+}
+.dash-sections{
+  display:grid;
+  gap:10px;
+}
+.dash-list{
+  display:grid;
+  gap:10px;
+  margin-top:12px;
+}
+.saved-item{
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(255,255,255,.035);
+  padding:12px;
+}
+.saved-item h3{
+  margin:0 0 6px;
+  color:var(--gold);
+}
+.saved-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:8px 0;
+}
+.saved-pill{
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:6px 9px;
+  font-size:12px;
+  font-weight:900;
+}
+.saved-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:8px;
+}
+.saved-actions button{
+  border:1px solid var(--line);
+  border-radius:10px;
+  color:var(--text);
+  background:rgba(255,255,255,.06);
+  padding:8px 10px;
+  cursor:pointer;
+}
+.platform-notice{
+  border:1px solid rgba(103,232,249,.35);
+  background:rgba(103,232,249,.07);
+  border-radius:14px;
+  padding:12px;
+  color:var(--muted);
+  line-height:1.45;
+}
+@media(max-width:980px){
+  .user-bar,
+  .auth-head,
+  .dash-head{
+    display:grid;
+  }
+  .user-actions{
+    justify-content:flex-start;
+  }
+  .auth-grid,
+  .dash-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+
+/* ===== Etapa 23: Supabase real ===== */
+.supabase-config-box{
+  border-color:rgba(103,232,249,.35);
+  background:rgba(103,232,249,.07);
+}
+.supabase-status{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:6px 9px;
+  font-size:12px;
+  font-weight:900;
+}
+.supabase-status::before{
+  content:"";
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:var(--red);
+  box-shadow:0 0 12px var(--red);
+}
+.supabase-status.on::before{
+  background:var(--green);
+  box-shadow:0 0 12px var(--green);
+}
+.cloud-item{
+  border:1px solid rgba(103,232,249,.26);
+  border-radius:14px;
+  padding:12px;
+  background:rgba(103,232,249,.06);
+}
+.cloud-item h3{
+  margin:0 0 6px;
+  color:var(--gold);
+}
+.cloud-item p{
+  color:var(--muted);
+  margin:6px 0;
+}
+.auth-actions button[data-action="signup-supabase"],
+.auth-actions button[data-action="signin-supabase"]{
+  background:linear-gradient(135deg,#67e8f9,#4ade80);
+  color:#071012;
+  border:0;
+}
+
+
+/* ===== Etapa 24: Escenarios en la nube ===== */
+.cloud-tools{
+  display:grid;
+  grid-template-columns:1.1fr .7fr 1fr;
+  gap:10px;
+  margin:12px 0;
+}
+.cloud-toolbar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:10px;
+}
+.cloud-toolbar button,
+.cloud-tag{
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:rgba(255,255,255,.06);
+  color:var(--text);
+  padding:7px 10px;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:900;
+}
+.cloud-toolbar button.danger{
+  border-color:rgba(251,113,133,.45);
+  background:rgba(251,113,133,.10);
+}
+.cloud-toolbar button.gold{
+  border-color:rgba(215,180,106,.45);
+  color:var(--gold);
+}
+.cloud-toolbar button.green{
+  border-color:rgba(74,222,128,.45);
+  color:var(--green);
+}
+.cloud-tag.public{
+  border-color:rgba(74,222,128,.45);
+  color:var(--green);
+}
+.cloud-tag.private{
+  border-color:rgba(251,113,133,.35);
+  color:#fda4af;
+}
+.cloud-tag.shared{
+  border-color:rgba(103,232,249,.35);
+  color:#67e8f9;
+}
+.cloud-item.selected{
+  outline:2px solid rgba(215,180,106,.45);
+}
+.cloud-item .cloud-preview{
+  margin-top:8px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.45;
+}
+.share-box{
+  width:100%;
+  min-height:74px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--input);
+  color:var(--text);
+  padding:10px;
+  margin-top:8px;
+  font:12px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace;
+}
+@media(max-width:900px){
+  .cloud-tools{
+    grid-template-columns:1fr;
+  }
+}
+
+
+/* ===== Etapa 25: Historial avanzado en la nube ===== */
+.history-tools{display:grid;grid-template-columns:.75fr .65fr .65fr 1.1fr;gap:10px;margin:12px 0}
+.history-stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:12px 0}
+.history-stat{border:1px solid var(--line);border-radius:14px;background:rgba(0,0,0,.16);padding:12px}
+.history-stat strong{display:block;color:var(--gold);margin-bottom:6px;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.history-stat b{font-size:24px}
+.history-item{border:1px solid rgba(215,180,106,.24);border-radius:14px;padding:12px;background:rgba(215,180,106,.045)}
+.history-item h3{margin:0 0 6px;color:var(--gold)}
+.history-preview{color:var(--muted);line-height:1.45;margin-top:8px}
+.history-winner-a{border-color:rgba(74,222,128,.35)}
+.history-winner-b{border-color:rgba(251,113,133,.35)}
+.history-winner-draw{border-color:rgba(103,232,249,.35)}
+.history-detail{width:100%;min-height:120px;border:1px solid var(--line);border-radius:12px;background:var(--input);color:var(--text);padding:10px;margin-top:10px;font:12px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace}
+.compare-box{border:1px solid rgba(103,232,249,.35);border-radius:14px;background:rgba(103,232,249,.07);padding:12px;margin-top:10px}
+@media(max-width:1000px){.history-tools,.history-stats{grid-template-columns:1fr}}
+
+
+/* ===== Etapa 26: Compartir escenarios ===== */
+.share-grid{
+  display:grid;
+  grid-template-columns:1.35fr .65fr;
+  gap:12px;
+  margin-top:12px;
+}
+.share-help{
+  border:1px solid rgba(103,232,249,.35);
+  border-radius:14px;
+  background:rgba(103,232,249,.07);
+  padding:12px;
+  display:grid;
+  align-content:start;
+  gap:6px;
+}
+.share-help strong{
+  color:var(--gold);
+}
+.share-help span{
+  color:var(--muted);
+  line-height:1.45;
+}
+.share-card{
+  border:1px solid rgba(215,180,106,.35);
+  border-radius:14px;
+  background:rgba(215,180,106,.07);
+  padding:12px;
+}
+.share-card h3{
+  color:var(--gold);
+  margin:0 0 6px;
+}
+.share-card p{
+  color:var(--muted);
+  margin:6px 0;
+  line-height:1.45;
+}
+.share-code-box{
+  width:100%;
+  min-height:120px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--input);
+  color:var(--text);
+  padding:10px;
+  margin-top:8px;
+  font:12px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace;
+}
+.community-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  border:1px solid rgba(74,222,128,.35);
+  color:var(--green);
+  border-radius:999px;
+  padding:6px 9px;
+  font-size:12px;
+  font-weight:900;
+}
+@media(max-width:900px){
+  .share-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+
+/* ===== Etapa 27: Panel comunitario ===== */
+.community-hero{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  border:1px solid rgba(74,222,128,.30);
+  border-radius:16px;
+  background:linear-gradient(135deg,rgba(74,222,128,.08),rgba(103,232,249,.06));
+  padding:14px;
+  margin-top:12px;
+}
+.community-hero strong{
+  color:var(--gold);
+  display:block;
+  margin-bottom:5px;
+}
+.community-hero span{
+  color:var(--muted);
+  line-height:1.45;
+}
+.community-tools{
+  display:grid;
+  grid-template-columns:1.2fr .7fr .7fr;
+  gap:10px;
+  margin:12px 0;
+}
+.community-stats{
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:10px;
+  margin:12px 0;
+}
+.community-stat{
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(0,0,0,.16);
+  padding:12px;
+}
+.community-stat strong{
+  color:var(--gold);
+  display:block;
+  margin-bottom:6px;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.community-stat b{
+  font-size:22px;
+}
+.community-feed{
+  display:grid;
+  gap:12px;
+}
+.community-card{
+  border:1px solid rgba(103,232,249,.25);
+  border-radius:16px;
+  background:rgba(103,232,249,.055);
+  padding:14px;
+}
+.community-card h3{
+  margin:0 0 8px;
+  color:var(--gold);
+}
+.community-card .community-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:8px 0;
+}
+.type-pill{
+  border:1px solid rgba(215,180,106,.45);
+  color:var(--gold);
+  border-radius:999px;
+  padding:6px 9px;
+  font-size:12px;
+  font-weight:900;
+}
+.type-pill.artillery{border-color:rgba(215,180,106,.55)}
+.type-pill.fortress{border-color:rgba(251,113,133,.45);color:#fda4af}
+.type-pill.air{border-color:rgba(103,232,249,.45);color:#67e8f9}
+.type-pill.debark{border-color:rgba(74,222,128,.45);color:#4ade80}
+.community-preview{
+  color:var(--muted);
+  line-height:1.45;
+  margin:8px 0;
+}
+.community-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:10px;
+}
+.community-actions button{
+  border:1px solid var(--line);
+  border-radius:11px;
+  background:rgba(255,255,255,.06);
+  color:var(--text);
+  padding:8px 10px;
+  cursor:pointer;
+  font-weight:900;
+}
+.community-actions button.green{
+  border-color:rgba(74,222,128,.45);
+  color:var(--green);
+}
+.community-actions button.gold{
+  border-color:rgba(215,180,106,.45);
+  color:var(--gold);
+}
+@media(max-width:1000px){
+  .community-tools,
+  .community-stats{
+    grid-template-columns:1fr;
+  }
+  .community-hero{
+    display:grid;
+  }
+}
+
+
+/* ===== Etapa 28: Estadísticas de jugador ===== */
+.stats-hero{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  border:1px solid rgba(215,180,106,.35);
+  border-radius:16px;
+  background:linear-gradient(135deg,rgba(215,180,106,.10),rgba(103,232,249,.05));
+  padding:14px;
+  margin-top:12px;
+}
+.stats-hero strong{
+  display:block;
+  color:var(--gold);
+  margin-bottom:5px;
+}
+.stats-hero span{
+  color:var(--muted);
+  line-height:1.45;
+}
+.player-stats-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  margin:12px 0;
+}
+.player-stat-card{
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:rgba(0,0,0,.16);
+  padding:14px;
+  min-height:96px;
+}
+.player-stat-card strong{
+  display:block;
+  color:var(--gold);
+  margin-bottom:8px;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.player-stat-card b{
+  display:block;
+  font-size:28px;
+  line-height:1;
+}
+.player-stat-card span{
+  display:block;
+  color:var(--muted);
+  margin-top:8px;
+  line-height:1.35;
+  font-size:13px;
+}
+.stats-insights{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  margin:12px 0;
+}
+.insight-card{
+  border:1px solid rgba(103,232,249,.32);
+  border-radius:16px;
+  background:rgba(103,232,249,.07);
+  padding:14px;
+}
+.insight-card strong{
+  color:var(--gold);
+  display:block;
+  margin-bottom:6px;
+}
+.insight-card p{
+  color:var(--muted);
+  margin:0;
+  line-height:1.45;
+}
+.stats-tables{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+  margin-top:12px;
+}
+.stats-table-card{
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:rgba(255,255,255,.035);
+  padding:12px;
+  overflow-x:auto;
+}
+.stats-table-card h3{
+  margin:0 0 8px;
+  color:var(--gold);
+}
+.stats-table-card table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:360px;
+}
+.stats-table-card th,
+.stats-table-card td{
+  border-bottom:1px solid var(--line);
+  padding:8px;
+  text-align:left;
+}
+.stats-table-card th{
+  color:var(--gold);
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.meter{
+  width:100%;
+  height:9px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:rgba(0,0,0,.24);
+  overflow:hidden;
+  margin-top:8px;
+}
+.meter i{
+  display:block;
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#e9c46a,#4ade80);
+}
+@media(max-width:1000px){
+  .player-stats-grid,
+  .stats-insights,
+  .stats-tables{
+    grid-template-columns:1fr;
+  }
+  .stats-hero{
+    display:grid;
+  }
+}
+
+
+/* ===== Etapa 29: Producción / publicación ===== */
+.production-home{
+  display:grid;
+  grid-template-columns:1.45fr .55fr;
+  gap:16px;
+  border:1px solid rgba(215,180,106,.35);
+  border-radius:24px;
+  padding:18px;
+  background:
+    radial-gradient(circle at 10% 10%,rgba(215,180,106,.16),transparent 34%),
+    linear-gradient(135deg,rgba(215,180,106,.09),rgba(103,232,249,.045));
+  margin-bottom:14px;
+}
+.production-copy h2{
+  margin:0;
+  font-size:clamp(32px,5vw,58px);
+  line-height:.95;
+}
+.production-copy p{
+  color:var(--muted);
+  line-height:1.5;
+  max-width:760px;
+}
+.production-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:12px;
+}
+.production-panel{
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:rgba(0,0,0,.18);
+  padding:16px;
+  display:grid;
+  gap:9px;
+  align-content:center;
+}
+.production-panel strong{
+  color:var(--gold);
+  font-size:18px;
+}
+.production-panel span{
+  color:var(--muted);
+  line-height:1.35;
+}
+.checklist-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  margin-top:12px;
+}
+.check-item{
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(255,255,255,.035);
+  padding:12px;
+}
+.check-item.ok{
+  border-color:rgba(74,222,128,.38);
+}
+.check-item.warn{
+  border-color:rgba(215,180,106,.40);
+}
+.check-item strong{
+  color:var(--gold);
+  display:block;
+  margin-bottom:5px;
+}
+.check-item span{
+  color:var(--muted);
+  line-height:1.4;
+}
+.publish-steps{
+  display:grid;
+  gap:10px;
+  margin-top:12px;
+}
+.publish-step{
+  border:1px solid rgba(103,232,249,.32);
+  border-radius:14px;
+  background:rgba(103,232,249,.07);
+  padding:12px;
+}
+.publish-step b{
+  color:var(--gold);
+}
+.publish-step code{
+  display:block;
+  white-space:pre-wrap;
+  margin-top:8px;
+  padding:10px;
+  border-radius:10px;
+  background:rgba(0,0,0,.22);
+  color:var(--text);
+}
+@media(max-width:980px){
+  .production-home,
+  .checklist-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+
+/* ===== Mejora: HP inteligente en tiempo real ===== */
+.unit-row{
+  grid-template-columns:minmax(220px,1.45fr) minmax(90px,.55fr) minmax(110px,.65fr) minmax(105px,.55fr) 42px!important;
+  gap:10px!important;
+  align-items:start!important;
+  position:relative;
+}
+.unit-identity{
+  display:grid;
+  grid-template-columns:42px 1fr;
+  gap:9px;
+  align-items:center;
+  min-width:0;
+}
+.unit-icon{
+  display:grid;
+  place-items:center;
+  width:42px;
+  height:42px;
+  border:1px solid rgba(215,180,106,.42);
+  border-radius:12px;
+  background:rgba(215,180,106,.10);
+  font-size:22px;
+}
+.unit-select-wrap{
+  display:grid;
+  gap:5px;
+  min-width:0;
+}
+.unit-meta{
+  color:var(--muted);
+  font-size:11.5px;
+  line-height:1.25;
+}
+.mini-field{
+  display:grid;
+  gap:5px;
+}
+.mini-field span{
+  color:var(--muted);
+  font-size:11px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+.hp-helper{
+  grid-column:1 / -1;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+  padding:8px;
+  background:rgba(0,0,0,.12);
+}
+.hp-helper-line{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  margin-bottom:7px;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:800;
+}
+.hp-warning{
+  color:var(--red);
+  text-align:right;
+}
+.hp-bar{
+  width:100%;
+  height:10px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:rgba(0,0,0,.25);
+  overflow:hidden;
+}
+.hp-bar i{
+  display:block;
+  width:100%;
+  height:100%;
+  background:linear-gradient(90deg,#f87171,#e9c46a,#4ade80);
+}
+.unit-row.hp-error{
+  border-color:rgba(251,113,133,.70)!important;
+  box-shadow:0 0 0 1px rgba(251,113,133,.20) inset;
+}
+.unit-row.hp-error .unit-hp,
+.unit-row.hp-error .unit-hp-percent{
+  border-color:rgba(251,113,133,.65);
+}
+.stack-hp-summary{
+  border:1px solid rgba(103,232,249,.28);
+  border-radius:14px;
+  background:rgba(103,232,249,.06);
+  padding:10px 12px;
+  margin-top:10px;
+  color:var(--muted);
+  line-height:1.45;
+}
+.stack-hp-summary strong{
+  color:var(--gold);
+}
+@media(max-width:820px){
+  .unit-row{
+    grid-template-columns:1fr!important;
+  }
+  .delete{
+    width:100%;
+  }
+}

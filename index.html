@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Battle Lab 1914</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-mode="basic">
+  <main class="app">
+    <header class="top">
+      <div>
+        <p class="eyebrow">Supremacy 1914 · Battle Lab 1914</p>
+        <h1>Calculadora de batalla</h1>
+        <p class="sub">Simulador táctico para Supremacy 1914 con HP inteligente, batallas, escenarios, nube opcional, comunidad y estadísticas.</p>
+      </div>
+      <div class="version">Versión pública</div>
+    </header>
+
+    <section id="productionHome" class="production-home">
+      <div class="production-copy">
+        <p class="eyebrow">Versión pública</p>
+        <h2>Battle Lab 1914</h2>
+        <p>Simulador táctico para Supremacy 1914 con unidades, fortalezas, aviones, héroes, varianza, escenarios, nube, comunidad y estadísticas.</p>
+        <div class="production-actions">
+          <button class="primary" type="button" data-action="start-app">Abrir calculadora</button>
+          <button class="ghost" type="button" data-action="public-demo">Modo demo público</button>
+          <button class="ghost" type="button" data-action="production-checklist">Checklist producción</button>
+          <button class="ghost" type="button" data-action="publish-guide">Guía GitHub Pages</button>
+        </div>
+      </div>
+      <div class="production-panel">
+        <strong>Lista para compartir</strong>
+        <span>Proyecto estático: HTML, CSS y JavaScript.</span>
+        <span>Compatible con GitHub Pages.</span>
+        <span>Supabase opcional.</span>
+      </div>
+    </section>
+
+    <section class="user-bar">
+      <div>
+        <p class="eyebrow">Cuenta de jugador</p>
+        <strong id="sessionStatus">Sesión no iniciada</strong>
+        <span id="sessionSub">Conecta Supabase o usa modo local para guardar escenarios e historial.</span>
+      </div>
+      <div class="user-actions">
+        <button class="ghost" type="button" data-action="open-login">Iniciar sesión</button>
+        <button class="ghost" type="button" data-action="open-dashboard">Mi panel</button>
+        <button class="ghost danger-lite" type="button" data-action="logout">Cerrar sesión</button>
+      </div>
+    </section>
+
+    <section id="authPanel" class="auth-panel" hidden>
+      <div class="auth-card">
+        <div class="auth-head">
+          <div>
+            <p class="eyebrow">Battle Lab ID</p>
+            <h2>Inicio de sesión</h2>
+            <p>Ahora puedes usar Supabase real si configuras URL y Anon Key. Si no configuras nada, la app mantiene el modo local de respaldo.</p>
+          </div>
+          <button type="button" data-action="close-login">×</button>
+        </div>
+
+        <div class="auth-grid">
+          <label class="field">
+            <span>Usuario</span>
+            <input id="loginName" type="text" placeholder="Ej: Chacalito">
+          </label>
+          <label class="field">
+            <span>Correo</span>
+            <input id="loginEmail" type="email" placeholder="jugador@email.com">
+          </label>
+          <label class="field">
+            <span>Contraseña</span>
+            <input id="loginPassword" type="password" placeholder="mínimo 6 caracteres">
+          </label>
+          <label class="field">
+            <span>País / coalición</span>
+            <input id="loginCountry" type="text" placeholder="Ej: Argentina">
+          </label>
+          <label class="field">
+            <span>Rol táctico</span>
+            <select id="loginRole">
+              <option value="General">General</option>
+              <option value="Artillero">Artillero</option>
+              <option value="Defensivo">Defensivo</option>
+              <option value="Aéreo">Aéreo</option>
+              <option value="Naval">Naval</option>
+              <option value="Estratega">Estratega</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="auth-actions">
+          <button type="button" data-action="signup-supabase">Registrarme con Supabase</button>
+          <button type="button" data-action="signin-supabase">Entrar con Supabase</button>
+          <button type="button" data-action="create-local-user">Entrar modo local</button>
+          <button type="button" data-action="demo-user">Entrar como demo</button>
+        </div>
+
+        <details class="supabase-config-box">
+          <summary>Configurar Supabase</summary>
+          <div class="grid">
+            <label class="field">
+              <span>Supabase URL</span>
+              <input id="supabaseUrl" type="text" placeholder="https://xxxx.supabase.co">
+            </label>
+            <label class="field">
+              <span>Anon Key</span>
+              <input id="supabaseAnonKey" type="password" placeholder="eyJhbGciOi...">
+            </label>
+          </div>
+          <div class="auth-actions">
+            <button type="button" data-action="save-supabase-config">Guardar configuración</button>
+            <button type="button" data-action="test-supabase-config">Probar conexión</button>
+            <button type="button" data-action="clear-supabase-config">Borrar configuración</button>
+          </div>
+          <p class="platform-notice">La URL y Anon Key quedan guardadas solo en este navegador. No coloques aquí service_role key.</p>
+        </details>
+      </div>
+    </section>
+
+    <section id="dashboardPanel" class="dashboard-panel" hidden>
+      <div class="dash-head">
+        <div>
+          <p class="eyebrow">Panel del jugador</p>
+          <h2>Mis escenarios e historial</h2>
+        </div>
+        <button type="button" data-action="close-dashboard">×</button>
+      </div>
+
+      <div class="dash-grid">
+        <div class="dash-card">
+          <strong>Escenarios guardados</strong>
+          <b id="dashScenarioCount">0</b>
+          <button type="button" data-action="save-user-scenario">Guardar escenario actual</button>
+          <button type="button" data-action="save-cloud-scenario">Guardar en nube</button>
+        </div>
+        <div class="dash-card">
+          <strong>Simulaciones</strong>
+          <b id="dashHistoryCount">0</b>
+          <button type="button" data-action="save-history-now">Guardar último resultado</button>
+          <button type="button" data-action="save-cloud-history">Guardar historial nube</button>
+        </div>
+        <div class="dash-card">
+          <strong>Perfil</strong>
+          <b id="dashPlayerName">Sin sesión</b>
+          <button type="button" data-action="export-user-data">Exportar datos</button>
+        </div>
+      </div>
+
+      <div class="dash-sections">
+        <details open>
+          <summary>Mis escenarios</summary>
+          <div id="userScenarios" class="dash-list">Sin escenarios.</div>
+        </details>
+        <details>
+          <summary>Historial de simulaciones</summary>
+          <div id="userHistory" class="dash-list">Sin historial.</div>
+        </details>
+        <details open>
+          <summary>Escenarios en la nube</summary>
+
+          <div class="cloud-tools">
+            <label class="field">
+              <span>Nombre nube</span>
+              <input id="cloudScenarioName" type="text" value="Escenario Battle Lab">
+            </label>
+            <label class="field">
+              <span>Visibilidad</span>
+              <select id="cloudScenarioVisibility">
+                <option value="private">Privado</option>
+                <option value="public">Público</option>
+                <option value="shared">Compartido</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Buscar</span>
+              <input id="cloudScenarioSearch" type="text" placeholder="filtrar por nombre...">
+            </label>
+          </div>
+
+          <div class="test-actions">
+            <button type="button" data-action="save-cloud-scenario">Guardar actual en nube</button>
+            <button type="button" data-action="load-cloud-scenarios">Mis escenarios</button>
+            <button type="button" data-action="load-public-scenarios">Públicos</button>
+            <button type="button" data-action="load-favorite-scenarios">Favoritos</button>
+            <button type="button" data-action="export-cloud-cache">Exportar lista</button>
+          </div>
+
+          <div id="cloudScenarioStats" class="platform-notice">Conecta Supabase para gestionar escenarios en la nube.</div>
+          <div id="cloudDataList" class="dash-list">Sin datos cargados.</div>
+        </details>
+
+        <details open>
+          <summary>Compartir e importar escenarios</summary>
+
+          <div class="share-grid">
+            <label class="field">
+              <span>Link / código compartido</span>
+              <textarea id="sharedScenarioCode" rows="5" placeholder="Pega aquí un JSON compartido o un código battlelab://..."></textarea>
+            </label>
+
+            <div class="share-help">
+              <strong>Cómo funciona</strong>
+              <span>Un escenario compartido contiene la configuración completa de batalla. Puedes copiarlo, pegarlo en otro navegador o guardarlo en tu cuenta.</span>
+            </div>
+          </div>
+
+          <div class="test-actions">
+            <button type="button" data-action="make-share-code">Crear código del escenario actual</button>
+            <button type="button" data-action="copy-share-code">Copiar código</button>
+            <button type="button" data-action="import-share-code">Importar código</button>
+            <button type="button" data-action="save-imported-to-cloud">Guardar importado en nube</button>
+          </div>
+
+          <div id="shareResult" class="dash-list">Sin escenario compartido todavía.</div>
+        </details>
+
+        <details open id="communityPanel">
+          <summary>Panel comunitario</summary>
+
+          <div class="community-hero">
+            <div>
+              <strong>Explorar escenarios públicos</strong>
+              <span>Busca batallas compartidas por otros jugadores, cárgalas, márcalas como favoritas o crea una copia privada en tu cuenta.</span>
+            </div>
+            <span class="community-badge">Etapa 27</span>
+          </div>
+
+          <div class="community-tools">
+            <label class="field">
+              <span>Buscar</span>
+              <input id="communitySearch" type="text" placeholder="artillería, fortaleza, desembarco...">
+            </label>
+            <label class="field">
+              <span>Tipo</span>
+              <select id="communityTypeFilter">
+                <option value="all">Todos</option>
+                <option value="artillery">Artillería</option>
+                <option value="fortress">Fortaleza</option>
+                <option value="air">Aéreo</option>
+                <option value="debark">Desembarco</option>
+                <option value="hero">Héroes</option>
+                <option value="naval">Naval</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Orden</span>
+              <select id="communitySort">
+                <option value="newest">Más nuevos</option>
+                <option value="name">Nombre</option>
+                <option value="type">Tipo detectado</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="test-actions">
+            <button type="button" data-action="load-community-feed">Explorar públicos</button>
+            <button type="button" data-action="refresh-community-feed">Actualizar</button>
+            <button type="button" data-action="export-community-feed">Exportar feed</button>
+          </div>
+
+          <div id="communityStats" class="community-stats">Sin escenarios cargados.</div>
+          <div id="communityFeed" class="community-feed">Pulsa “Explorar públicos”.</div>
+        </details>
+
+        <details open id="playerStatsPanel">
+          <summary>Estadísticas del jugador</summary>
+
+          <div class="stats-hero">
+            <div>
+              <strong>Resumen de actividad táctica</strong>
+              <span>Analiza tus escenarios, historial, unidades más usadas, tipos de batalla y tendencia de resultados.</span>
+            </div>
+            <span class="community-badge">Etapa 28</span>
+          </div>
+
+          <div class="test-actions">
+            <button type="button" data-action="build-player-stats">Calcular estadísticas</button>
+            <button type="button" data-action="load-stats-from-cloud">Actualizar desde nube</button>
+            <button type="button" data-action="export-player-stats">Exportar estadísticas JSON</button>
+            <button type="button" data-action="copy-player-stats">Copiar resumen</button>
+          </div>
+
+          <div id="playerStatsGrid" class="player-stats-grid">Pulsa “Calcular estadísticas”.</div>
+          <div id="playerStatsInsights" class="stats-insights"></div>
+          <div id="playerStatsTables" class="stats-tables"></div>
+        </details>
+
+        <details open>
+          <summary>Historial en Supabase</summary>
+
+          <div class="history-tools">
+            <label class="field">
+              <span>Filtrar ganador</span>
+              <select id="historyWinnerFilter">
+                <option value="all">Todos</option>
+                <option value="Army A">Army A</option>
+                <option value="Army B">Army B</option>
+                <option value="Draw">Empate</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Desde</span>
+              <input id="historyDateFrom" type="date">
+            </label>
+            <label class="field">
+              <span>Hasta</span>
+              <input id="historyDateTo" type="date">
+            </label>
+            <label class="field">
+              <span>Buscar</span>
+              <input id="historySearch" type="text" placeholder="unidad, ganador, nota...">
+            </label>
+          </div>
+
+          <label class="field wide">
+            <span>Nota para guardar con la simulación</span>
+            <textarea id="historyNote" rows="3" placeholder="Ej: prueba real día 5, rival con fortaleza II, resultado observado..."></textarea>
+          </label>
+
+          <div class="test-actions">
+            <button type="button" data-action="save-cloud-history">Guardar último resultado en nube</button>
+            <button type="button" data-action="load-cloud-history">Cargar historial nube</button>
+            <button type="button" data-action="export-history-json">Exportar JSON</button>
+            <button type="button" data-action="export-history-csv">Exportar CSV</button>
+            <button type="button" data-action="clear-history-filters">Limpiar filtros</button>
+          </div>
+
+          <div id="cloudHistoryStats" class="history-stats">Sin estadísticas cargadas.</div>
+          <div id="cloudHistoryList" class="dash-list">Sin historial cargado.</div>
+        </details>
+      </div>
+    </section>
+
+    <section id="startGuide" class="start-guide">
+      <div>
+        <p class="eyebrow">Guía rápida</p>
+        <h2>Usa la calculadora en 3 pasos</h2>
+      </div>
+      <div class="guide-steps">
+        <div><b>1</b><span>Carga unidades</span></div>
+        <div><b>2</b><span>Elige modo</span></div>
+        <div><b>3</b><span>Simula y lee el resumen</span></div>
+      </div>
+      <button class="ghost" type="button" data-action="hide-guide">Ocultar guía</button>
+    </section>
+
+    <section id="modeHint" class="mode-hint">
+      <strong>Modo básico</strong>
+      <span>Solo coloca unidades, cantidad y HP. Ideal para calcular rápido sin distracciones.</span>
+    </section>
+
+    <section id="validationBox" class="validation-box" hidden></section>
+
+    <section class="mode-panel">
+      <button class="mode active" data-mode="basic" type="button">1 · Básico</button>
+      <button class="mode" data-mode="tactical" type="button">2 · Táctico</button>
+      <button class="mode" data-mode="advanced" type="button">3 · Avanzado</button>
+    </section>
+
+    <section class="quick-actions">
+      <button class="primary" type="button" data-action="simulate">Simular batalla</button>
+      <button class="ghost" type="button" data-example="basic">Ejemplo básico</button>
+      <button class="ghost" type="button" data-example="tactical">Ejemplo táctico</button>
+      <button class="ghost" type="button" data-example="advanced">Ejemplo avanzado</button>
+
+      <label class="field small">
+        <span>Rondas</span>
+        <input id="maxRounds" type="number" min="0.25" step="0.25" value="25">
+      </label>
+
+      <label class="switch">
+        <input id="simulateVariance" type="checkbox">
+        <span>Varianza</span>
+      </label>
+
+      <label class="field small advanced-only">
+        <span>Simulaciones</span>
+        <input id="simulationRuns" type="number" min="1" max="1000" step="1" value="100">
+      </label>
+
+      <button class="ghost" type="button" data-action="reset">Reset</button>
+      <button class="ghost advanced-only" type="button" data-action="export">Exportar resultado</button>
+      <button class="ghost" type="button" data-action="help">Ayuda rápida</button>
+      <button class="ghost advanced-only" type="button" data-action="save-test-case">Guardar caso prueba</button>
+      <button class="ghost advanced-only" type="button" data-action="show-test-cases">Casos guardados</button>
+      <button class="ghost advanced-only" type="button" data-action="make-share-code">Compartir escenario</button>
+      <button class="ghost advanced-only" type="button" data-action="open-community">Comunidad</button>
+      <button class="ghost advanced-only" type="button" data-action="open-player-stats">Mis estadísticas</button>
+      <button class="ghost advanced-only" type="button" data-action="production-checklist">Checklist</button>
+      <button class="ghost advanced-only" type="button" data-action="export-project-info">Info proyecto</button>
+      <button class="ghost advanced-only" type="button" data-action="save-user-scenario">Guardar en mi cuenta</button>
+      <button class="ghost advanced-only" type="button" data-action="open-dashboard">Mi panel</button>
+    </section>
+
+    <section id="summaryResult" class="result-hero">
+      <div>
+        <p class="eyebrow">Resultado principal</p>
+        <h2>Configura Army A y Army B, luego pulsa Simular</h2>
+        <p>La respuesta principal aparecerá aquí en lenguaje claro. El detalle técnico queda abajo.</p>
+      </div>
+    </section>
+
+    <section class="armies">
+      <article class="army army-a">
+        <div class="army-head">
+          <div>
+            <p>Army A</p>
+            <h2>Tu ejército</h2>
+          </div>
+          <span class="badge">Atacante</span>
+        </div>
+
+        <div class="unit-list" id="unitsA"></div>
+        <button class="add" type="button" data-action="add-unit" data-army="A">+ Agregar unidad</button>
+
+        <details class="tactical-only">
+          <summary>Opciones tácticas</summary>
+          <div class="grid">
+            <label class="field"><span>Posición</span><input id="posA" type="number" step="1" value="0"></label>
+            <label class="field"><span>Terreno</span><select id="terrainA"><option value="land">Tierra</option><option value="sea">Mar / transporte</option><option value="debark">Desembarco</option><option value="air">Aire</option><option value="patrol">Patrulla</option></select></label>
+            <label class="field"><span>Tipo objetivo</span><select id="targetClassA"><option value="auto">Auto</option><option value="normal">Normal</option><option value="air">Aire</option><option value="naval">Naval</option><option value="building">Edificio</option></select></label>
+            <label class="field"><span>Objetivo</span><select id="targetA"><option value="B1">Army B</option><option value="Defend">Defend</option></select></label>
+          </div>
+        </details>
+
+        <details class="advanced-only">
+          <summary>Fortaleza y héroe</summary>
+          <div class="grid">
+            <label class="field"><span>Fortaleza</span><select id="fortA"><option value="none">Sin fortaleza</option><option value="1">Nivel I</option><option value="2">Nivel II</option><option value="3">Nivel III</option><option value="4">Nivel IV</option><option value="5">Nivel V</option></select></label>
+            <label class="field"><span>HP fortaleza</span><input id="fortHpA" type="number" min="0" max="50" step="0.1" value="0"></label>
+            <label class="field"><span>Héroe</span><select id="heroA"></select></label>
+            <label class="field"><span>Afecta</span><select id="heroAffectsA"></select></label>
+            <label class="field"><span>Ataque %</span><input id="heroAttackA" type="number" step="1" value="0"></label>
+            <label class="field"><span>Defensa %</span><input id="heroDefenseA" type="number" step="1" value="0"></label>
+            <label class="field"><span>HP %</span><input id="heroHpA" type="number" step="1" value="0"></label>
+          </div>
+        </details>
+      </article>
+
+      <article class="army army-b">
+        <div class="army-head">
+          <div>
+            <p>Army B</p>
+            <h2>Enemigo</h2>
+          </div>
+          <span class="badge red">Defensor</span>
+        </div>
+
+        <div class="unit-list" id="unitsB"></div>
+        <button class="add" type="button" data-action="add-unit" data-army="B">+ Agregar unidad</button>
+
+        <details class="tactical-only">
+          <summary>Opciones tácticas</summary>
+          <div class="grid">
+            <label class="field"><span>Posición</span><input id="posB" type="number" step="1" value="0"></label>
+            <label class="field"><span>Terreno</span><select id="terrainB"><option value="land">Tierra</option><option value="sea">Mar / transporte</option><option value="debark">Desembarco</option><option value="air">Aire</option><option value="patrol">Patrulla</option></select></label>
+            <label class="field"><span>Tipo objetivo</span><select id="targetClassB"><option value="auto">Auto</option><option value="normal">Normal</option><option value="air">Aire</option><option value="naval">Naval</option><option value="building">Edificio</option></select></label>
+            <label class="field"><span>Objetivo</span><select id="targetB"><option value="Defend">Defend</option><option value="A1">Army A</option></select></label>
+          </div>
+        </details>
+
+        <details class="advanced-only">
+          <summary>Fortaleza y héroe</summary>
+          <div class="grid">
+            <label class="field"><span>Fortaleza</span><select id="fortB"><option value="none">Sin fortaleza</option><option value="1">Nivel I</option><option value="2">Nivel II</option><option value="3">Nivel III</option><option value="4">Nivel IV</option><option value="5">Nivel V</option></select></label>
+            <label class="field"><span>HP fortaleza</span><input id="fortHpB" type="number" min="0" max="50" step="0.1" value="0"></label>
+            <label class="field"><span>Héroe</span><select id="heroB"></select></label>
+            <label class="field"><span>Afecta</span><select id="heroAffectsB"></select></label>
+            <label class="field"><span>Ataque %</span><input id="heroAttackB" type="number" step="1" value="0"></label>
+            <label class="field"><span>Defensa %</span><input id="heroDefenseB" type="number" step="1" value="0"></label>
+            <label class="field"><span>HP %</span><input id="heroHpB" type="number" step="1" value="0"></label>
+          </div>
+        </details>
+      </article>
+    </section>
+
+    <section class="details-area">
+      <details open>
+        <summary>Resumen táctico explicado</summary>
+        <div id="simpleReport" class="simple-report">Todavía no hay simulación.</div>
+      </details>
+
+      <details>
+        <summary>Detalle técnico opcional</summary>
+        <div id="technicalReport" class="technical-report">Las tablas técnicas aparecerán después de simular.</div>
+      </details>
+
+      <details class="advanced-only" id="testingPanel" open>
+        <summary>Modo prueba y calibración</summary>
+        <div class="test-panel">
+          <div class="test-intro">
+            <strong>Compara la calculadora contra batallas reales</strong>
+            <span>Simula una batalla, coloca el resultado esperado o real del juego, y guarda el caso para revisar si el motor está calibrado.</span>
+          </div>
+
+          <div class="grid">
+            <label class="field">
+              <span>Nombre del caso</span>
+              <input id="testCaseName" type="text" value="Caso de prueba">
+            </label>
+
+            <label class="field">
+              <span>Resultado real / esperado</span>
+              <select id="expectedWinner">
+                <option value="unknown">No definido</option>
+                <option value="Army A">Gana Army A</option>
+                <option value="Army B">Gana Army B</option>
+                <option value="Draw">Empate / sin ganador</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Confianza</span>
+              <select id="caseConfidence">
+                <option value="pendiente">Pendiente</option>
+                <option value="confiable">Confiable</option>
+                <option value="dudoso">Dudoso</option>
+                <option value="requiere ajuste">Requiere ajuste</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Diferencia aceptable</span>
+              <input id="acceptedDiff" type="number" min="0" step="1" value="10">
+            </label>
+          </div>
+
+          <label class="field wide">
+            <span>Notas del caso</span>
+            <textarea id="testNotes" rows="4" placeholder="Ejemplo: batalla real día 3, enemigo en fortaleza I, resultado del juego, dudas, daño observado..."></textarea>
+          </label>
+
+          <div class="test-actions">
+            <button type="button" data-action="save-test-case">Guardar caso actual</button>
+            <button type="button" data-action="show-test-cases">Ver casos</button>
+            <button type="button" data-action="export-test-cases">Exportar casos JSON</button>
+            <button type="button" data-action="clear-test-cases">Borrar casos</button>
+          </div>
+
+          <div id="testCaseReport" class="test-case-report">No hay caso comparado todavía.</div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Escenarios rápidos de prueba</summary>
+        <div class="scenario-grid">
+          <button type="button" data-scenario="desembarco">Desembarco urgente</button>
+          <button type="button" data-scenario="fortaleza">Bombardeo a fortaleza</button>
+          <button type="button" data-scenario="aereo">Ataque aéreo</button>
+          <button type="button" data-scenario="georg">Georg + artillería</button>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <template id="unitRowTemplate">
+    <div class="unit-row">
+      <div class="unit-identity">
+        <span class="unit-icon" title="Icono de unidad">🪖</span>
+        <div class="unit-select-wrap">
+          <select class="unit-type"></select>
+          <small class="unit-meta">HP unidad: -</small>
+        </div>
+      </div>
+
+      <label class="mini-field">
+        <span>Cantidad</span>
+        <input class="unit-count" type="number" min="0" step="1" value="1">
+      </label>
+
+      <label class="mini-field">
+        <span>HP actual</span>
+        <input class="unit-hp unit-hp-actual" type="number" min="0" step="1" value="20">
+      </label>
+
+      <label class="mini-field">
+        <span>% vida</span>
+        <input class="unit-hp-percent" type="number" min="0" step="0.1" value="100">
+      </label>
+
+      <button type="button" class="delete" data-action="delete-unit">×</button>
+
+      <div class="hp-helper">
+        <div class="hp-helper-line">
+          <span class="max-hp-label">Máximo: - HP</span>
+          <span class="hp-warning"></span>
+        </div>
+        <div class="hp-bar"><i></i></div>
+      </div>
+    </div>
+  </template>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabaseClient.js"></script>
+  <script src="units.js"></script>
+  <script src="battleEngine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
